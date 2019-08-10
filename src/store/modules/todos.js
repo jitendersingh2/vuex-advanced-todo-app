@@ -43,6 +43,15 @@ const actions = {
     const data = await response.json();
 
     commit('setTodos', data);
+  },
+  async updateTodo({ commit }, updTodo) {
+    const response = await fetch(`${URL}/${updTodo.id}`,{
+      method: 'PUT',
+      body: JSON.stringify(updTodo)
+    });
+    const data = await response.json();
+
+    commit('updateTodo', updTodo);
   }
 };
 
@@ -50,7 +59,13 @@ const mutations = {
   setTodos: (state, todos) => (state.todos = todos),
   newTodo: (state, todo) => state.todos.unshift(todo),
   removeTodo: (state, id) =>
-    (state.todos = state.todos.filter(todo => todo.id !== id))
+    (state.todos = state.todos.filter(todo => todo.id !== id)),
+  updateTodo: (state, updTodo) => {
+    const index = state.todos.findIndex(todo => todo.id === updTodo.id);
+    if (index !== -1) {
+      state.todos.splice(index, 1, updTodo);
+    }
+  }
 };
 
 export default {
