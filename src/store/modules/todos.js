@@ -1,14 +1,7 @@
+const URL = 'https://jsonplaceholder.typicode.com/todos';
+
 const state = {
-  todos: [
-    {
-      id: 1,
-      title: 'Todo One'
-    },
-    {
-      id: 2,
-      title: 'Todo Two'
-    }
-  ]
+  todos: []
 };
 
 const getters = {
@@ -18,8 +11,9 @@ const getters = {
 const actions = {
   async fetchTodos({ commit }) {
     const response = await fetch(URL);
-
-    commit('setTodos', response.data);
+    const data = await response.json();
+    
+    commit('setTodos', data);
   }
 };
 
