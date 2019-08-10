@@ -30,6 +30,19 @@ const actions = {
     });
 
     commit('removeTodo', id);
+  },
+  async filterTodos({ commit }, e) {
+    // Get selected number
+    const limit = parseInt(
+      e.target.options[e.target.options.selectedIndex].innerText
+    );
+
+    const response = await fetch(
+      `${URL}?_limit=${limit}`
+    );
+    const data = await response.json();
+
+    commit('setTodos', data);
   }
 };
 
